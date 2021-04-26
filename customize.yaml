@@ -1,0 +1,5 @@
+sensor.upstairs_bathroom_temperature_average:
+  icon: mdi:thermometer
+sensor.processor_temperature:
+  unit_of_measurement: °C
+  friendly_name: HassOS - CPU Temperature

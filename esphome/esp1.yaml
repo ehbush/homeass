@@ -1,0 +1,27 @@
+esphome:
+  name: esp1-red
+  platform: ESP32
+  board: esp-wrover-kit
+
+wifi:
+  ssid: "EB Systems"
+  password: "OLEDrophireDiVeTTuh20!"
+  manual_ip:
+    static_ip: 10.3.0.59
+    gateway: 10.3.0.1
+    subnet: 255.255.255.0
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+#  ap:
+#    ssid: "Esp1 Fallback Hotspot"
+#    password: "OEenfQGBylLg"
+
+#captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:

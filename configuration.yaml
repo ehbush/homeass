@@ -1,0 +1,362 @@
+###################################################
+#     ehbush Home Assistant Main Config File      #
+###################################################
+###################################################
+#    General Config      #
+###################################################
+homeassistant:
+  packages: !include_dir_named packages
+default_config:
+zeroconf:
+updater:
+  include_used_components: true
+###################################################
+#    Enable Additional Themes     #
+###################################################
+frontend:
+  themes: !include_dir_merge_named themes
+###################################################
+#    Zone Information     #
+###################################################
+#zone:
+#  - name: Home
+#    latitude: !secret latitude_home
+#    longitude: !secret longitude_home
+#    radius: 100
+#    icon: mdi:home
+#  - name: Work
+#    latitude: !secret latitude_work
+#    longitude: !secret longitude_work
+#    radius: 200
+#    icon: mdi:office-building-marker
+###################################################
+#    Text to Speech     #
+###################################################
+tts:
+  - platform: google_translate
+###################################################
+#    Discovery of Devices    #
+###################################################
+discovery:
+  ignore:
+    - apple_tv
+###################################################
+#    MQTT     #
+###################################################
+mqtt:
+  discovery: true
+  # birth_message and will_message is not required anymore for Home Assistant 0.113 >=
+  birth_message:
+    topic: 'hass/status'
+    payload: 'online'
+  will_message:
+    topic: 'hass/status'
+    payload: 'offline'
+###################################################
+#    InfluxDB     #
+###################################################
+influxdb:
+  host: !secret influx_host
+  port: !secret influx_port
+  database: !secret influx_db
+  username: !secret influx_usr
+  password: !secret influx_pw
+  max_retries: 3
+  default_measurement: state
+  tags:
+    instance: prod
+    source: hass
+###################################################
+#    Log Level     #
+###################################################
+# Log Severities: notset, debug, info, warn, warning, error, fatal, critical
+#logger:
+#  default: error
+#  logs:
+#    homeassistant.core: warn
+#    homeassistant.components.zha: warn
+#    bellows.zigbee.application: debug
+#    bellows.ezsp: debug
+#    zigpy: debug
+#    zigpy_cc: debug
+#    zigpy_deconz.zigbee.application: debug
+#    zigpy_deconz.api: debug
+#    zigpy_xbee.zigbee.application: debug
+#    zigpy_xbee.api: debug
+#    zigpy_zigate: debug
+#    zigpy_znp: debug
+#    zhaquirks: debug
+###################################################
+#    Light Groups     #
+###################################################
+light:
+  - platform: switch
+    name: Kitchen Smart Switch TL 
+    entity_id: switch.track_lighting_2
+light:
+  - platform: group
+    name: Bedroom Lightstrips (All))
+    entities:
+      - light.bedroom_light_strip_1
+      - light.bedroom_light_strip_2
+  - platform: group
+    name: Bedroom (All)
+    entities:
+      - light.hue_group_bedroom
+      - light.lamp_bedroom_color
+      - light.bedroom_light_strip_1
+      - light.bedroom_light_strip_2
+  - platform: group
+    name: Hall (All)
+    entities:
+      - light.hue_group_hall
+      - light.upstairs_hall_color_1
+      - light.upstairs_hall_color_2
+      - light.upstairs_hall_color_3
+      - light.upstairs_hall_color_4
+  - platform: group
+    name: Living Room (All)
+    entities:
+      - light.hue_group_living_room
+      - light.downstairs_hall_lightstrip
+      - light.downstairs_light_strip_3
+  - platform: group
+    name: Downstairs (All)
+    entities:
+      - light.hue_group_living_room
+      - light.hue_group_kitchen
+      - light.downstairs_hall_lightstrip
+      - light.kitchen_lightstrip_2
+      - light.downstairs_light_strip_3
+      - light.hbloom
+  - platform: group
+    name: Nook (All)
+    entities:
+      - light.hue_group_nook
+      - light.lamp_nook_color
+  - platform: group
+    name: Lightstrips (All)
+    entities:
+      - light.downstairs_hall_lightstrip
+      - light.kitchen_lightstrip_2
+      - light.downstairs_light_strip_3
+      - light.hallway_light_strip 
+      - light.bedroom_light_strip_1
+      - light.bedroom_light_strip_2
+  - platform: group
+    name: Upstairs (All)
+    entities:
+      - light.hue_group_nook
+      - light.lamp_nook_color
+      - light.hue_group_bedroom
+      - light.lamp_bedroom_color
+      - light.bedroom_light_strip_1
+      - light.bedroom_light_strip_2
+      - light.upstairs_hall_color_1
+      - light.upstairs_hall_color_2
+      - light.upstairs_hall_color_3
+      - light.upstairs_hall_color_4
+      - light.lamp_bedroom_color
+  - platform: group
+    name: Kitchen (All)
+    entities:
+      - light.hue_group_kitchen
+      - light.kitchen_lightstrip_2
+      - light.hbloom
+###################################################
+#    Sensors     #
+###################################################
+sensor:
+  - platform: min_max
+    type: mean 
+    name: Upstairs Bathroom Temperature (Average)
+    round_digits: 2
+    entity_ids:
+      - sensor.upstairs_bathroom_button_temperature
+      - sensor.upstairs_bathroom_humiture_temperature
+      - sensor.upstairs_bathroom_door_sensor_bedroom_side_temperature
+      - sensor.upstairs_bathroom_motion_sensor_temperature
+      - sensor.bathroom_door_sensor_nook_side_temperature
+  - platform: min_max
+    type: mean 
+    name: Upstairs Temperature (Average)
+    round_digits: 2
+    entity_ids:
+      - sensor.upstairs_hallway_button_temperature
+      - sensor.nook_humiture_sensor_temperature
+      - sensor.ms6_nook_temperature
+      - sensor.upstairs_bathroom_button_temperature
+      - sensor.upstairs_bathroom_humiture_temperature
+      - sensor.upstairs_bathroom_door_sensor_bedroom_side_temperature
+      - sensor.upstairs_bathroom_motion_sensor_temperature
+      - sensor.bathroom_door_sensor_nook_side_temperature
+      - sensor.bedroom_button_temperature
+      - sensor.bedroom_door_sensor_temperature
+      - sensor.bedroom_humiture_sensor_temperature
+      - sensor.ms6_bedroom_air_temperature
+      - sensor.laundry_room_humiture_sensor_temperature
+      - sensor.laundry_room_motion_sensor_mini_temperature
+  - platform: min_max
+    type: mean 
+    name: Bedroom Temperature (Average)
+    round_digits: 2
+    entity_ids:
+      - sensor.bedroom_button_temperature
+      - sensor.bedroom_door_sensor_temperature
+      - sensor.bedroom_humiture_sensor_temperature
+      - sensor.ms6_bedroom_air_temperature
+  - platform: min_max
+    type: mean 
+    name: Downstairs Temperature (Average)
+    round_digits: 2
+    entity_ids:
+      - sensor.downstairs_bathroom_humiture_temperature
+      - sensor.downstairs_bathroom_door_sensor_temperature
+      - sensor.ms4_pantry_temperature
+      - sensor.pantry_door_sensor_temperature
+      - sensor.ms6_kitchen_temperature
+      - sensor.kitchen_humiture_temperature
+      - sensor.main_desk_button_1_temperature
+      - sensor.main_desk_button_2_temperature
+      - sensor.ms6_kitchen_temperature
+      - sensor.front_door_contact_sensor_smartthings_temperature
+  - platform: min_max
+    type: mean 
+    name: Inside Temperature (Average)
+    entity_ids:
+      - sensor.upstairs_hallway_button_temperature
+      - sensor.nook_humiture_sensor_temperature
+      - sensor.ms6_nook_temperature
+      - sensor.upstairs_bathroom_button_temperature
+      - sensor.upstairs_bathroom_humiture_temperature
+      - sensor.upstairs_bathroom_door_sensor_bedroom_side_temperature
+      - sensor.upstairs_bathroom_motion_sensor_temperature
+      - sensor.bathroom_door_sensor_nook_side_temperature
+      - sensor.bedroom_button_temperature
+      - sensor.bedroom_door_sensor_temperature
+      - sensor.bedroom_humiture_sensor_temperature
+      - sensor.ms6_bedroom_air_temperature
+      - sensor.laundry_room_humiture_sensor_temperature
+      - sensor.laundry_room_motion_sensor_mini_temperature
+      - sensor.downstairs_bathroom_humiture_temperature
+      - sensor.downstairs_bathroom_door_sensor_temperature
+      - sensor.ms4_pantry_temperature
+      - sensor.pantry_door_sensor_temperature
+      - sensor.ms6_kitchen_temperature
+      - sensor.kitchen_humiture_temperature
+      - sensor.main_desk_button_1_temperature
+      - sensor.main_desk_button_2_temperature
+      - sensor.ms6_kitchen_temperature
+      - sensor.front_door_contact_sensor_smartthings_temperature
+  - platform: min_max
+    type: mean 
+    name: Nook Temperature (Average)
+    round_digits: 2
+    entity_ids:
+      - sensor.nook_humiture_sensor_temperature
+      - sensor.ms6_nook_temperature
+  - platform: min_max
+    type: mean 
+    name: Downstairs Bathroom Temperature (Average)
+    round_digits: 2
+    entity_ids:
+      - sensor.downstairs_bathroom_humiture_temperature
+      - sensor.downstairs_bathroom_door_sensor_temperature
+  - platform: min_max
+    type: mean 
+    name: Pantry Temperature (Average)
+    round_digits: 2
+    entity_ids:
+      - sensor.ms4_pantry_temperature
+      - sensor.pantry_door_sensor_temperature
+  - platform: min_max
+    type: mean 
+    name: Kitchen Temperature (Average)
+    round_digits: 2
+    entity_ids:
+      - sensor.ms6_kitchen_temperature
+      - sensor.kitchen_humiture_temperature
+  - platform: min_max
+    type: mean 
+    name: Living Room Temperature (Average)
+    round_digits: 2
+    entity_ids:
+      - sensor.main_desk_button_1_temperature
+      - sensor.main_desk_button_2_temperature
+      - sensor.ms6_kitchen_temperature
+      - sensor.front_door_contact_sensor_smartthings_temperature
+  - platform: template
+    sensors:
+      solar_angle:
+        friendly_name: "Sun Angle"
+        unit_of_measurement: "degrees"
+        value_template: "{{ state_attr('sun.sun', 'elevation') }}"
+
+      sunrise:
+        value_template: "{{ state_attr('sun.sun', 'next_rising') }}"
+#  - platform: mqtt
+#    state_topic: 'homeassistant/sensor/esp32-black/temperature'
+#    name: 'ESP32 Black - Temperature'
+#    unit_of_measurement: '°F'
+#  - platform: mqtt
+#    state_topic: 'homeassistant/sensor/esp32-black/humidity'
+#    name: 'ESP32 Black - Humidity'
+#    unit_of_measurement: '%'
+#  - platform: mqtt
+#    state_topic: 'homeassistant/sensor/esp32-red/temperature'
+#    name: 'ESP32 Red - Temperature'
+#    unit_of_measurement: '°F'
+#  - platform: mqtt
+#    state_topic: 'homeassistant/sensor/esp32-red/humidity'
+#    name: 'ESP32 Red - Humidity'
+#    unit_of_measurement: '%'
+  - platform: systemmonitor
+    resources:
+      - type: disk_use_percent
+        arg: /config
+      - type: network_in
+        arg: eth0
+      - type: network_out
+        arg: eth0
+      - type: memory_free
+      - type: memory_use_percent
+      - type: load_1m
+      - type: load_5m
+      - type: load_15m
+      - type: processor_temperature
+###################################################
+#    Device Trackers     #
+###################################################
+#device_tracker:
+#  - platform: iphonedetect
+#    consider_home: 60
+#    new_device_defaults:
+#      track_new_devices: true
+#    hosts:
+#      hostname1: !secret iphone_ip
+###################################################
+#    Third-Party Integration Configs     #
+###################################################
+spotify:
+  client_id: !secret spotify_cid
+  client_secret: !secret spotify_cs
+pi_hole:
+  - host: !secret pihole_ebnet
+    name: PiHole - EB Network
+    api_key: !secret pihole_ebnet_key
+  - host: !secret pihole_ebmob
+    name: PiHole - EB Mobile
+    api_key: !secret pihole_ebmob_key
+  - host: !secret pihole_ebsys
+    name: Pi-Hole - EB Systems
+    api_key: !secret pihole_ebsys_key
+###################################################
+#    Include Additional Configs     #
+###################################################
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+#switch: !include switches.yaml
+#light groups: !include light-groups.yaml
+#light switches: !include light-switches.yaml

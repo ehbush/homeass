@@ -1,0 +1,96 @@
+# Logs
+logs
+*.log
+# Python cache
+__pycache__
+*.pyc
+
+# Other
+*.uuid
+*.conf
+*.db
+*.db-journal
+*.log
+*.noload
+*.txt
+*.sqlite
+*.xml
+*.backup
+*.back
+*.json
+life360.sh
+.ip_authenticated.yaml
+ip_bans.yaml
+.config_entries.json
+*.google.token
+.google.token
+.ring_cache.pickle
+.spotify-token-cache
+.storage
+abodepy_cache.pickle
+camera_recording.py
+home-assistant.env
+home-assistant.*
+known_devices.yaml
+entity_registry.yaml
+secrets.yaml
+google_calendars.yaml
+SERVICE_ACCOUNT.json
+components
+deps
+tts
+www/icons
+www/floorplans
+www/community
+custom_components/hacs
+downloads
+icloud
+dlib_faces
+dlib_nofaces
+dlib_known_faces
+dlib_unknown_faces
+.cloud
+*.pickle
+.pc-session
+google*.deb
+.homekit.state
+### HomeAssistant ###
+# Files with personal details
+*.crt
+*.csr
+*.key
+*pem
+*p7b
+.google.token
+.uuid
+icloud/
+google_calendars.yaml
+harmony_media_room.conf
+home-assistant.db
+home-assistant_v2.db
+home-assistant_v2.db-*
+html5_push_registrations.conf
+ip_bans.yaml
+known_devices.yaml
+phue.conf
+plex.conf
+pyozw.sqlite
+secrets.yaml
+tradfri.conf
+
+# Temporary files
+*.db-journal
+*.pid
+tts
+
+# automatically downloaded dependencies
+deps
+lib
+www
+
+# Log files
+home-assistant.log
+ozw_log.txt
+
+# Development files
+custom_components/

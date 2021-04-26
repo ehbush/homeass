@@ -1,0 +1,570 @@
+- id: '1612423906059'
+  alias: Upstairs Bath - Shower Time (On)
+  description: ''
+  trigger:
+  - type: humidity
+    platform: device
+    device_id: e56a5265b2d77b2aded1cdc5c1ad2941
+    entity_id: sensor.upstairs_bathroom_humiture_humidity
+    domain: sensor
+    above: 45
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  condition: []
+  action:
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id:
+      - switch.upstairs_bath_fan
+      - switch.upstairs_bath_overhead_light
+      - switch.upstairs_bath_primary_light
+  mode: single
+- id: '1612423962509'
+  alias: Upstairs Bath Humidity Automation (OFF)
+  description: ''
+  trigger:
+  - type: humidity
+    platform: device
+    device_id: e56a5265b2d77b2aded1cdc5c1ad2941
+    entity_id: sensor.upstairs_bathroom_humiture_humidity
+    domain: sensor
+    below: 45
+  condition: []
+  action:
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.upstairs_bath_fan_toggle_switch
+  mode: single
+- id: '1612432715475'
+  alias: Front Door Open (iPhone Notification)
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: d0fe0b4496b7551a0288166df92cecc9
+    entity_id: binary_sensor.front_door_contact_sensor_smartthings_contact
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: notify.mobile_app_ehbushs_iphone_12_pro
+    data:
+      message: Just so you know, the the Front Door has been opened.
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  mode: single
+- id: '1612432861710'
+  alias: Front Door Closed (iPhone Notification)
+  description: ''
+  trigger:
+  - type: not_opened
+    platform: device
+    device_id: d0fe0b4496b7551a0288166df92cecc9
+    entity_id: binary_sensor.front_door_contact_sensor_smartthings_contact
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: notify.mobile_app_ehbushs_iphone_12_pro
+    data:
+      message: Its all good in the hood...the Front Door is now closed.
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  mode: single
+- id: '1612583755939'
+  alias: Tag Kitchen Tag is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: c8aa
+  condition: []
+  action:
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.kitchen_track_light
+  - service: light.turn_on
+    data: {}
+    entity_id: light.hue_group_kitchen
+  mode: single
+- id: '1612584317345'
+  alias: Tag Front Door Tag 1 is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: d6eca0b2-66b9-4e59-8f03-bfa324dc70d8
+  condition: []
+  action:
+  - device_id: 37e516a725108d422e85867240bf6a86
+    domain: alarm_control_panel
+    entity_id: alarm_control_panel.alarmo
+    type: arm_away
+  mode: single
+- id: '1612834929813'
+  alias: Laundry Room Light Motion On
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: d69ecb92b6416b1668735dbe95061527
+    entity_id: binary_sensor.bedroom_motion_sensor_mini_occupancy
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.laundry_room_light
+  mode: single
+- id: '1612834979544'
+  alias: Laundry Room Light No Motion
+  description: ''
+  trigger:
+  - type: no_motion
+    platform: device
+    device_id: d69ecb92b6416b1668735dbe95061527
+    entity_id: binary_sensor.bedroom_motion_sensor_mini_occupancy
+    domain: binary_sensor
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  condition: []
+  action:
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.laundry_room_light
+  mode: single
+- id: '1612899612531'
+  alias: Hallway Daytime Motion - Lights on
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 043772d988828f3ca51d9ba8afd0818c
+    entity_id: binary_sensor.hallway_motion_sensor_occupancy
+    domain: binary_sensor
+  condition:
+  - condition: time
+    after: 08:00
+    before: '23:00'
+  action:
+  - service: light.turn_on
+    data:
+      color_name: white
+      brightness_pct: 100
+    target:
+      entity_id: light.hue_group_hall
+  mode: single
+- id: '1612899649785'
+  alias: Hallway Motion - Lights Off
+  description: ''
+  trigger:
+  - type: no_motion
+    platform: device
+    device_id: 043772d988828f3ca51d9ba8afd0818c
+    entity_id: binary_sensor.hallway_motion_sensor_occupancy
+    domain: binary_sensor
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  condition: []
+  action:
+  - service: light.turn_off
+    entity_id: light.hue_group_hall
+    data: {}
+  mode: single
+- id: '1612943206237'
+  alias: Tag Lanyard Tag 1 is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: cfa88a3a-044b-4d1c-a6f5-2f2e3d584be7
+  condition: []
+  action:
+  - service: lock.unlock
+    data: {}
+    entity_id: lock.front_door
+  mode: single
+- id: '1613002712793'
+  alias: Tag Tag 3 is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 5ff9a034-a628-47ae-80ea-cc6a67f4d597
+  condition: []
+  action:
+  - device_id: 16b442dd767d56ce2af583cede545659
+    domain: lock
+    entity_id: lock.front_door
+    type: lock
+  mode: single
+- id: '1613002736850'
+  alias: Tag Tag 4 is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 2b6682c5-f532-4e3f-9eb0-f48c0fa7b3c1
+  condition: []
+  action:
+  - device_id: 16b442dd767d56ce2af583cede545659
+    domain: lock
+    entity_id: lock.front_door
+    type: unlock
+  mode: single
+- id: '1613361360802'
+  alias: HA Restart - Button 1 Single Click
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 0d0443caa682711c51f08b5c293fe4a0
+    type: click
+    subtype: single
+    discovery_id: 0x286d970001135d24 click_single
+  condition: []
+  action:
+  - service: homeassistant.restart
+    data: {}
+  mode: single
+- id: '1615360647680'
+  alias: Hallway Night Motion - Lights on
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 043772d988828f3ca51d9ba8afd0818c
+    entity_id: binary_sensor.hallway_motion_sensor_occupancy
+    domain: binary_sensor
+  condition:
+  - condition: time
+    after: '23:01'
+    before: 07:59
+  action:
+  - service: light.turn_on
+    data:
+      color_name: white
+      brightness_pct: 5
+    target:
+      entity_id: light.hue_group_hall
+  mode: single
+- id: '1615361082921'
+  alias: Bath Time
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 2bea81c1425c46f92227fa93b8d51cd1
+    type: action
+    subtype: single
+    discovery_id: 0x286d970001136baf action_single
+  condition: []
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id:
+      - switch.upstairs_bath_main_light
+      - switch.ge_enbrighten_z_wave_plus_smart_switch_current_value_4
+  - service: light.turn_on
+    data:
+      brightness: 255
+      color_name: limegreen
+    target:
+      entity_id:
+      - light.upstairs_bathroom_light_strip
+      - light.lamp_light_1
+      device_id:
+      - 9df8a2491aa0ebd59800dca11ce9fa74
+      - e1f109ee105633a4ccf80fff06ae95c4
+  mode: single
+- id: '1615701654732'
+  alias: 'Auto Backup: Midnight '
+  description: ''
+  trigger:
+  - platform: time
+    at: 00:00
+  condition: []
+  action:
+  - service: auto_backup.snapshot_full
+    data:
+      keep_days: 14
+  mode: single
+- id: '1617617772194'
+  alias: WMQ - Downstairs Button 4
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      device_id: 81cbaa2b13335e05a7de9ad95cb07bfd
+      label: Scene 004
+      value: KeyPressed
+  condition: []
+  action:
+  - service: light.turn_off
+    target:
+      entity_id: light.all_downstairs
+  mode: single
+- id: '1617619474665'
+  alias: WMQ - Bedroom Button 2
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      device_id: 8c332dbe6eed030f3cc6eeea16185489
+      label: Scene 004
+      value: KeyPressed
+  condition: []
+  action:
+  - service: light.turn_off
+    target:
+      entity_id: light.all_bedroom
+  - service: switch.turn_off
+    target:
+      entity_id: switch.bedroom_heart_light
+  mode: single
+- id: '1617619653396'
+  alias: WMQ - Bedroom Button 1
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      device_id: 8c332dbe6eed030f3cc6eeea16185489
+      label: Scene 002
+      value: KeyPressed
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      color_name: white
+      brightness_pct: 100
+    target:
+      entity_id: light.all_bedroom
+  mode: single
+- id: '1617620269978'
+  alias: WMQ - Bedroom Button 3
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      device_id: 8c332dbe6eed030f3cc6eeea16185489
+      label: Scene 001
+      value: KeyPressed
+  condition: []
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.all_bedroom
+    data:
+      color_name: hotpink
+      brightness_pct: 100
+  - service: switch.turn_on
+    target:
+      entity_id: switch.bedroom_heart_light
+  mode: single
+- id: '1617620411605'
+  alias: WMQ - Bedroom Button 4
+  description: ''
+  trigger:
+  - platform: event
+    event_type: zwave_js_value_notification
+    event_data:
+      device_id: 8c332dbe6eed030f3cc6eeea16185489
+      label: Scene 003
+      value: KeyPressed
+  condition: []
+  action:
+  - service: light.turn_off
+    target:
+      entity_id: light.all_bedroom
+    data:
+      transition: 300
+  - service: switch.turn_off
+    target:
+      entity_id: switch.bedroom_heart_light
+  mode: single
+- id: '1618291227077'
+  alias: Hall Lights - On Daytime
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: f86dfe1421fb780c1c49954d5443e50b
+    entity_id: binary_sensor.4_in_1_sensor_home_security_motion_detection_2
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.hall_all
+    data:
+      color_name: white
+      brightness_pct: 100
+  mode: single
+- id: '1618291972470'
+  alias: Upstairs Bath - Motion Sensor Lights On (Daytime)
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 7b344e2460317a29dbbfefe97aad246c
+    entity_id: binary_sensor.upstairs_bathroom_motion_sensor_occupancy
+    domain: binary_sensor
+  condition:
+  - condition: time
+    after: 09:00
+    before: 01:00
+  action:
+  - service: switch.turn_on
+    target:
+      entity_id:
+      - switch.upstairs_bath_primary_light
+  mode: single
+- id: '1618292260951'
+  alias: Nook Lights - Motion Sensor (Daytime)
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 40ba2a92d74830b66e233f4ec5e49d7c
+    entity_id: binary_sensor.ms6_nook_home_security_motion_detection
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.nook_all
+    data:
+      color_name: white
+      brightness_pct: 100
+  mode: single
+- id: '1618292501021'
+  alias: Upstairs Bathroom Humidity Push Notification
+  description: ''
+  trigger: []
+  condition:
+  - type: is_humidity
+    condition: device
+    device_id: e56a5265b2d77b2aded1cdc5c1ad2941
+    entity_id: sensor.upstairs_bathroom_humiture_humidity
+    domain: sensor
+    above: 60
+    below: 100
+  action:
+  - service: notify.mobile_app_ehbushs_iphone_12_pro
+    data:
+      title: 'Humidity Report: Upstairs Bathroom'
+      message: The humidity of the upstairs bathroom is more than 60%. Hot damn!
+  mode: single
+- id: '1618292713803'
+  alias: Outdoor Humidity - Push Notification
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.openweathermap_humidity
+    from: '60'
+    to: '100'
+    for: 300s
+  condition: []
+  action:
+  - service: notify.mobile_app_ehbushs_iphone_12_pro
+    data:
+      message: 'It is humid outside. It''s more than 60% humidity! '
+      title: 'Humidity Report: Outside'
+  mode: single
+- id: '1618430523518'
+  alias: Downstairs Bath - Motion On
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 93a861bfaa95e19284bd9f3521bc6bf1
+    entity_id: binary_sensor.node_21_home_security_motion_detection
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: switch.turn_on
+    target:
+      entity_id: switch.downstairs_bathroom_light
+  mode: single
+- id: '1618443359169'
+  alias: Downstairs Bath - Motion Off
+  description: ''
+  trigger:
+  - type: no_motion
+    platform: device
+    device_id: 93a861bfaa95e19284bd9f3521bc6bf1
+    entity_id: binary_sensor.node_21_home_security_motion_detection
+    domain: binary_sensor
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  condition: []
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id: switch.downstairs_bathroom_light
+  mode: single
+- id: '1618443628180'
+  alias: Downstairs Bathroom - Light & Fan Upon Door Closing
+  description: ''
+  trigger:
+  - type: not_opened
+    platform: device
+    device_id: 6040c8ce25c83c6f730de5d959363a54
+    entity_id: binary_sensor.downstairs_bathroom_door_sensor_contact
+    domain: binary_sensor
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  condition:
+  - type: is_motion
+    condition: device
+    device_id: 93a861bfaa95e19284bd9f3521bc6bf1
+    entity_id: binary_sensor.node_21_home_security_motion_detection
+    domain: binary_sensor
+  action:
+  - service: switch.turn_on
+    target:
+      entity_id:
+      - switch.downstairs_bathroom_light
+      - switch.downstairs_bathroom_fan
+  mode: single
+- id: '1618443695611'
+  alias: Downstairs Bathroom - Light & Fan Off
+  description: ''
+  trigger:
+  - type: no_motion
+    platform: device
+    device_id: 93a861bfaa95e19284bd9f3521bc6bf1
+    entity_id: binary_sensor.node_21_home_security_motion_detection
+    domain: binary_sensor
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  condition: []
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id:
+      - switch.downstairs_bathroom_fan
+      - switch.downstairs_bathroom_light
+  mode: single
